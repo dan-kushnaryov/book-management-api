@@ -35,7 +35,7 @@ test/
 
 ### Prerequisites
 
-- Node.js 18+
+- Node.js 20+ (use `nvm use` or `asdf install` — supported via `.nvmrc` and `.tool-versions`)
 - MongoDB (local or Docker)
 - Docker & Docker Compose (optional)
 
