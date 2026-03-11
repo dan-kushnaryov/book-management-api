@@ -275,8 +275,14 @@ Response includes pagination metadata:
 ## Testing
 
 ```bash
-# Run tests
+# Run all tests
 npm test
+
+# Run only unit tests (fast, no DB)
+npm run test:unit
+
+# Run only API/integration tests
+npm run test:api
 
 # Run tests with coverage
 npm run test:coverage
