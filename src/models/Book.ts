@@ -44,7 +44,6 @@ const bookSchema = new Schema<IBook>(
     score: {
       type: Number,
       required: true,
-      index: true,
     },
   },
   {
@@ -52,9 +51,10 @@ const bookSchema = new Schema<IBook>(
   }
 );
 
-bookSchema.index({ library: 1 });
-bookSchema.index({ author: 1 });
-bookSchema.index({ authorCountry: 1 });
+// Compound index for /books endpoint (findAll with sort by createdAt)
+bookSchema.index({ library: 1, createdAt: -1 });
+
+// Compound index for /feed endpoint (country prioritization + score sorting)
 bookSchema.index({ library: 1, authorCountry: 1, score: -1 });
 
 export const Book = mongoose.model<IBook>('Book', bookSchema);
