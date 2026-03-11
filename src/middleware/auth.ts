@@ -1,7 +1,7 @@
 import { Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import { config } from '../config';
-import { User, IUser } from '../models';
+import { User } from '../models';
 import { AuthenticatedRequest } from '../types';
 
 interface JwtPayload {
@@ -35,4 +35,35 @@ export const authenticate = async (
   } catch (error) {
     res.status(401).json({ error: 'Invalid token.' });
   }
+};
+
+/**
+ * Middleware to require specific role(s) for an endpoint.
+ * Must be used after authenticate middleware.
+ *
+ * @example
+ * // Single role
+ * router.delete('/:id', authenticate, requireRole('admin'), controller.delete);
+ *
+ * // Multiple roles
+ * router.put('/:id', authenticate, requireRole('admin', 'moderator'), controller.update);
+ */
+export const requireRole = (...allowedRoles: string[]) => {
+  return (req: AuthenticatedRequest, res: Response, next: NextFunction): void => {
+    if (!req.user) {
+      res.status(401).json({ error: 'Authentication required.' });
+      return;
+    }
+
+    if (!allowedRoles.includes(req.user.role)) {
+      res.status(403).json({
+        error: 'Access denied. Insufficient permissions.',
+        required: allowedRoles,
+        current: req.user.role,
+      });
+      return;
+    }
+
+    next();
+  };
 };

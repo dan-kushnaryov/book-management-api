@@ -24,6 +24,12 @@ router.put(
   (req: Request, res: Response, next: NextFunction) => bookController.update(req, res, next)
 );
 
+// router.delete(
+//   '/:id',
+//   requireRole('admin'),
+//   (req, res, next) => bookController.delete(req, res, next)
+// );
+
 router.delete('/:id', (req, res, next) => bookController.delete(req, res, next));
 
 export { router as bookRoutes };
