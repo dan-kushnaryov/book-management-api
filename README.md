@@ -288,6 +288,12 @@ npm run test:api
 npm run test:coverage
 ```
 
+## Linting
+
+```bash
+npm run lint
+```
+
 ## Test Users
 
 After running the seed script:
