@@ -1,7 +1,7 @@
 import { Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import { config } from '../config';
-import { User } from '../models';
+import { User, UserRole } from '../models';
 import { AuthenticatedRequest } from '../types';
 
 interface JwtPayload {
@@ -43,12 +43,12 @@ export const authenticate = async (
  *
  * @example
  * // Single role
- * router.delete('/:id', authenticate, requireRole('admin'), controller.delete);
+ * router.delete('/:id', authenticate, requireRole(UserRole.ADMIN), controller.delete);
  *
  * // Multiple roles
- * router.put('/:id', authenticate, requireRole('admin', 'moderator'), controller.update);
+ * router.put('/:id', authenticate, requireRole(UserRole.ADMIN, UserRole.USER), controller.update);
  */
-export const requireRole = (...allowedRoles: string[]) => {
+export const requireRole = (...allowedRoles: UserRole[]) => {
   return (req: AuthenticatedRequest, res: Response, next: NextFunction): void => {
     if (!req.user) {
       res.status(401).json({ error: 'Authentication required.' });

@@ -5,7 +5,7 @@ import { Application } from 'express';
 import jwt from 'jsonwebtoken';
 import { createApp } from '../src/app';
 import { setupTestDb, teardownTestDb, clearTestDb } from './setup';
-import { Library, User, Book } from '../src/models';
+import { Library, User, Book, UserRole } from '../src/models';
 import { config } from '../src/config';
 import { calculateBookScore } from '../src/common';
 
@@ -51,7 +51,7 @@ describe('Feed API', function() {
       password: 'password123',
       country: 'US',
       libraries: [library._id],
-      role: 'user',
+      role: UserRole.USER,
     });
 
     token = jwt.sign({ userId: user._id }, config.jwt.secret, {

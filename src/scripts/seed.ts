@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import { config } from '../config';
-import { Library, User, Book } from '../models';
+import { Library, User, Book, UserRole } from '../models';
 import { calculateBookScore } from '../common';
 
 const seedData = async (): Promise<void> => {
@@ -26,21 +26,21 @@ const seedData = async (): Promise<void> => {
         password: 'password123',
         country: 'US',
         libraries: [libraries[0]._id, libraries[1]._id],
-        role: 'admin',
+        role: UserRole.ADMIN,
       },
       {
         username: 'user1',
         password: 'password123',
         country: 'US',
         libraries: [libraries[0]._id],
-        role: 'user',
+        role: UserRole.USER,
       },
       {
         username: 'user2',
         password: 'password123',
         country: 'UK',
         libraries: [libraries[2]._id],
-        role: 'user',
+        role: UserRole.USER,
       },
     ]);
     console.log('Created users:', users.length);
