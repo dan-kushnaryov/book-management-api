@@ -90,10 +90,10 @@ export class FeedService {
     const sameCountrySkip = Math.min(skip, sameCountryCount);
 
     // How many items to take from pool 1 (remaining after skip, capped by limit)
-    const sameCountryLimit = Math.max(0, Math.min(limit, sameCountryCount - skip));
+    const sameCountryLimit = Math.min(limit, sameCountryCount - sameCountrySkip);
 
     // Pool 2 starts after pool 1 is exhausted
-    const otherCountrySkip = Math.max(0, skip - sameCountryCount);
+    const otherCountrySkip = skip - sameCountrySkip;
 
     // Pool 2 fills the rest of the page
     const otherCountryLimit = limit - sameCountryLimit;
